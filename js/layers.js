@@ -73,7 +73,7 @@ addLayer("p", {
 					let eff = player.p.points.plus(2).pow(0.5);
 					if (hasUpgrade("g", 14)) eff = eff.pow(1.5);
 					if (hasUpgrade("g", 24)) eff = eff.pow(1.4666667);
-					if (hasUpgrade("HP", 12)) eff = eff.pow((upgradeEffect("HP", 12));
+					if (hasUpgrade("HP", 12)) eff = eff.pow(upgradeEffect("HP", 12));
 					if (hasUpgrade("g", 34) && player.i.buyables[12].gte(2)) eff = eff.pow(1.4333333)
 					
 					if (hasChallenge("h", 22)) eff = softcap("p12_h22", eff);
