@@ -73,6 +73,7 @@ addLayer("p", {
 					let eff = player.p.points.plus(2).pow(0.5);
 					if (hasUpgrade("g", 14)) eff = eff.pow(1.5);
 					if (hasUpgrade("g", 24)) eff = eff.pow(1.4666667);
+					if (hasUpgrade("HP", 12)) eff = eff.pow((upgradeEffect("HP", 12));
 					if (hasUpgrade("g", 34) && player.i.buyables[12].gte(2)) eff = eff.pow(1.4333333)
 					
 					if (hasChallenge("h", 22)) eff = softcap("p12_h22", eff);
@@ -286,8 +287,8 @@ addLayer("b", {
         color: "#6e64c4",
         requires() { return new Decimal(200).times((player.b.unlockOrder&&!player.b.unlocked)?5000:1) }, // Can be a function that takes requirement increases into account
         resource: "boosters", // Name of prestige currency
-        baseResource: "points", // Name of resource prestige is based on
-        baseAmount() {return player.points}, // Get the current amount of baseResource
+        baseResource: "point expos", // Name of resource prestige is based on
+        baseAmount() {return player.points.add(1).log10()}, // Get the current amount of baseResource
         type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
 		branches: ["p"],
         exponent() { return ((Array.isArray(tmp.ma.mastered))?tmp.ma.mastered.includes(this.layer):false)?0.75:1.25 }, // Prestige currency exponent
@@ -344,7 +345,7 @@ addLayer("b", {
 			return Decimal.pow(tmp.b.effectBase, player.b.points.plus(tmp.sb.spectralTotal)).max(0).times(hasUpgrade("p", 43)?tmp.q.enEff:1);
 		},
 		effectDescription() {
-			return "which are boosting Point generation by "+format(tmp.b.effect)+"x"+(tmp.nerdMode?(inChallenge("ne", 11)?"\n (DISABLED)":("\n ("+format(tmp.b.effectBase)+"x each)")):"")
+			return "which are boosting Point generation expo by "+format(tmp.b.effect)+"^"+(tmp.nerdMode?(inChallenge("ne", 11)?"\n (DISABLED)":("\n ("+format(tmp.b.effectBase)+"x each)")):"")
 		},
 		doReset(resettingLayer) {
 			let keep = [];
@@ -9946,6 +9947,18 @@ addLayer("HP", {
             cost: new Decimal("1"),
             effect(){
                 return player.HP.points.add(1).pow_base(1e10)
+            },
+             effectDisplay() {
+				return "nice!"
+            }
+	},
+        12: {
+            title: "2",
+            description: "HP raise Prestige Boost eff",
+            
+            cost: new Decimal("10"),
+            effect(){
+                return player.HP.points.add(10).div(2)
             },
              effectDisplay() {
 				return "nice!"
