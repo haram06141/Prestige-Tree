@@ -15,6 +15,7 @@ addLayer("p", {
 			if (hasAchievement("a", 32)) mult = mult.times(2);
 			if (hasUpgrade("p", 21)) mult = mult.times(((Array.isArray(tmp.ma.mastered))?tmp.ma.mastered.includes(this.layer):false)?1e50:1.8);
 			if (hasUpgrade("p", 23)) mult = mult.times(upgradeEffect("p", 23));
+			if (hasUpgrade("HP", 11)) mult = mult.times(upgradeEffect("HP", 11));
 			if (hasUpgrade("p", 41)) mult = mult.times(upgradeEffect("p", 41));
 			if (hasUpgrade("b", 11)) mult = mult.times(upgradeEffect("b", 11));
 			if (hasUpgrade("g", 11)) mult = mult.times(upgradeEffect("g", 11));
@@ -9934,6 +9935,22 @@ addLayer("HP", {
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
+    },
+	 upgrades: {
+        rows: 5,
+        cols: 5,
+        11: {
+            title: "1",
+            description: "each HP give 1e10x to PP",
+            
+            cost: new Decimal("1"),
+            effect(){
+                return player.HP.points.add(1).pow_base(1e10)
+            },
+             effectDisplay() {
+				return "nice!"
+            }
+	},
     },
     row: "side", // Row the layer is in on the tree (0 is the first row)
     layerShown(){return true}
