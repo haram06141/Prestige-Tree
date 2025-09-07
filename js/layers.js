@@ -29,6 +29,7 @@ addLayer("p", {
         gainExp() { // Calculate the exponent on main currency from bonuses
             let exp = new Decimal(1)
 			if (hasUpgrade("p", 31)) exp = exp.times(1.05);
+			if (hasUpgrade("HP", 13)) exp = exp.times(upgradeEffect("HP", 13));
 			return exp;
         },
         row: 0, // Row the layer is in on the tree (0 is the first row)
@@ -9962,6 +9963,32 @@ addLayer("HP", {
             },
              effectDisplay() {
 				return "nice!"
+            }
+	},
+        13: {
+            title: "3",
+            description: "HP raise PP,Points",
+            
+            cost: new Decimal("10"),
+            effect(){
+				let x = player.HP.points.add(10).div(2)
+				    if hasUpgrade("HP",14) x = x.pow(upgradeEffect("HP",14))
+				return x
+            },
+             effectDisplay() {
+				return "OP!"
+            }
+	},
+        14: {
+            title: "4",
+            description: "HP raise 3Eff",
+            
+            cost: new Decimal("100"),
+            effect(){
+                return player.HP.points.add(100).div(2)
+            },
+             effectDisplay() {
+				return "OP!"
             }
 	},
     },
